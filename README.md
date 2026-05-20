@@ -1,4 +1,4 @@
-# GuitarShop Backend 🎸
+# GuitarShop Backend 
 
 Đây là dự án Backend cho hệ thống quản lý cửa hàng đàn Guitar, được xây dựng trên nền tảng **Java Spring Boot**. Dự án cung cấp các API để giao tiếp với cơ sở dữ liệu và quản lý thông tin các loại đàn guitar trong kho.
 
@@ -11,7 +11,7 @@ Dự án được xây dựng với các công nghệ và thư viện sau:
 - **Lombok**: Thư viện giúp giảm thiểu code boilerplate (tự động tạo getter, setter, constructor,...).
 - **Maven**: Công cụ quản lý dự án và các thư viện (dependencies).
 
-## 🚀 Tính năng chính (Dự kiến)
+##  Tính năng chính (Dự kiến)
 - Quản lý danh sách các loại đàn Guitar (Thêm, Xem, Sửa, Xóa).
 - Mỗi cây đàn (`Guitar`) sẽ có các thông tin cơ bản:
   - `id`: Mã định danh (Tự động tăng)
@@ -20,7 +20,7 @@ Dự án được xây dựng với các công nghệ và thư viện sau:
   - `price`: Giá tiền
   - `quantity`: Số lượng tồn kho
 
-## ⚙️ Hướng dẫn cài đặt và chạy dự án
+## ⚙ Hướng dẫn cài đặt và chạy dự án
 
 ### 1. Yêu cầu hệ thống
 - Máy tính đã cài đặt **Java 21** (JDK 21).
@@ -52,7 +52,7 @@ Bạn có thể chạy dự án bằng cách:
 
 Mặc định ứng dụng sẽ chạy ở cổng `8080`.
 
-## 📁 Cấu trúc thư mục chính
+##  Cấu trúc thư mục chính
 ```text
 src/main/java/com/example/guitarshop_backend/
  ├── entity/          # Chứa các lớp ánh xạ với CSDL (Ví dụ: Guitar.java)
