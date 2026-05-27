@@ -43,6 +43,12 @@ public class GuitarService {
         guitar.setBrand(guitarDetails.getBrand());
         guitar.setPrice(guitarDetails.getPrice());
         guitar.setQuantity(guitarDetails.getQuantity());
+        guitar.setThumbnail(guitarDetails.getThumbnail());
+        guitar.setDescription(guitarDetails.getDescription());
+        guitar.setWoodType(guitarDetails.getWoodType());
+        guitar.setColor(guitarDetails.getColor());
+        guitar.setStringCount(guitarDetails.getStringCount());
+        guitar.setCategory(guitarDetails.getCategory());
 
         return guitarRepository.save(guitar);
     }
@@ -56,6 +62,6 @@ public class GuitarService {
     }
 
     public List<Guitar> getByBrand(String brand) {
-        return guitarRepository.findByBrandIgnoreCase(brand);
+        return guitarRepository.findByBrandNameIgnoreCase(brand);
     }
 }

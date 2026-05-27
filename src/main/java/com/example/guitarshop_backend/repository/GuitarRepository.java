@@ -16,5 +16,5 @@ public interface GuitarRepository extends JpaRepository<Guitar, Long> {
     List<Guitar> findByNameContainingIgnoreCase(String name);
 
     // Tìm đàn theo đúng tên thương hiệu (Không phân biệt hoa thường)
-    List<Guitar> findByBrandIgnoreCase(String brand);
+    List<Guitar> findByBrandNameIgnoreCase(String brandName);
 }
