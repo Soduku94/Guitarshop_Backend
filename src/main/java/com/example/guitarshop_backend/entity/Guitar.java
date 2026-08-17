@@ -44,6 +44,9 @@ public class Guitar {
 
     private Integer stringCount; // Số dây đàn
 
+    @Column(nullable = true)
+    private String status = "DRAFT"; // Trạng thái sản phẩm (DRAFT, PUBLISHED)
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;

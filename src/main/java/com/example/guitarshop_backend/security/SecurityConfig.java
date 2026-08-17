@@ -51,10 +51,16 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> 
                 auth.requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/uploads/**").permitAll()
+                    .requestMatchers("/api/uploads/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers(HttpMethod.GET, "/api/guitars", "/api/guitars/**", "/api/categories", "/api/categories/**", "/api/brands", "/api/brands/**").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/guitars", "/api/guitars/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers(HttpMethod.PUT, "/api/guitars", "/api/guitars/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers(HttpMethod.DELETE, "/api/guitars", "/api/guitars/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers("/api/users/profile", "/api/users/change-password").authenticated()
+                    .requestMatchers(HttpMethod.GET, "/api/users", "/api/users/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/users/**").hasAuthority("ROLE_ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasAuthority("ROLE_ADMIN")
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/error").permitAll()
                     .anyRequest().authenticated()
             );

@@ -2,6 +2,7 @@ package com.example.guitarshop_backend.service;
 
 import com.example.guitarshop_backend.dto.UserDTO;
 import com.example.guitarshop_backend.dto.UserResponseDTO;
+import com.example.guitarshop_backend.dto.ChangePasswordRequest;
 import com.example.guitarshop_backend.entity.Role;
 import com.example.guitarshop_backend.entity.User;
 import com.example.guitarshop_backend.repository.RoleRepository;
@@ -92,6 +93,29 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với id: " + id));
         user.setActive(false); // Xóa mềm (Soft delete)
+        userRepository.save(user);
+    }
+
+    public UserResponseDTO updateUserProfile(String email, UserDTO userDTO) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với email: " + email));
+
+        user.setFullName(userDTO.getFullName());
+        user.setPhone(userDTO.getPhone());
+
+        User updatedUser = userRepository.save(user);
+        return mapToResponse(updatedUser);
+    }
+
+    public void changePassword(String email, ChangePasswordRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng với email: " + email));
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new RuntimeException("Mật khẩu cũ không chính xác");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
 

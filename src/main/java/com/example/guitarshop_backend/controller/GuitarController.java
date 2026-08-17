@@ -8,8 +8,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @CrossOrigin
@@ -24,13 +24,22 @@ public class GuitarController {
         this.guitarService = guitarService;
     }
 
+    private boolean checkIfAdmin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return authentication.getAuthorities().stream()
+                    .anyMatch(authority -> "ROLE_ADMIN".equals(authority.getAuthority()));
+        }
+        return false;
+    }
+
     @Operation(summary = "Lấy danh sách đàn (Có phân trang)", description = "Trả về danh sách tất cả các loại đàn hiện có trong kho")
     @GetMapping
     public Page<Guitar> getAllGuitars(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
-        return guitarService.getAllGuitars(page, size);
+        return guitarService.getAllGuitars(page, size, checkIfAdmin());
     }
 
     @Operation(summary = "Thêm một cây đàn mới")
@@ -38,13 +47,12 @@ public class GuitarController {
     public Guitar addGuitar(@Valid @RequestBody Guitar guitar) {
         return guitarService.addGuitar(guitar);
     }
+    
     @Operation(summary = "Lấy chi tiết đàn theo ID")
     @GetMapping("/{id}")
     public Guitar getGuitarById(@PathVariable("id") Long id) { // Thêm ("id")
-        return guitarService.getGuitarById(id);
+        return guitarService.getGuitarById(id, checkIfAdmin());
     }
-
-
 
     @PutMapping("/{id}")
     public Guitar updateGuitar(@PathVariable Long id, @Valid @RequestBody Guitar guitarDetails) {
@@ -57,17 +65,19 @@ public class GuitarController {
         guitarService.deleteGuitar(id);
         return "Đã xóa thành công cây đàn có ID: " + id;
     }
+    
     // API Tìm kiếm theo tên (VD: /api/guitars/search?name=classic)
     @Operation(summary = "Tìm kiếm đàn theo tên")
     @GetMapping("/search")
     public List<Guitar> searchGuitars(@RequestParam("name") String name) { // Thêm ("name")
-        return guitarService.searchByName(name);
+        return guitarService.searchByName(name, checkIfAdmin());
     }
+    
     // API Lọc theo thương hiệu (VD: /api/guitars/brand?name=Yamaha)
     @Operation(summary = "Lọc đàn theo thương hiệu")
     @GetMapping("/brand")
     public List<Guitar> getGuitarsByBrand(@RequestParam("name") String name) { // Thêm ("name")
-        return guitarService.getByBrand(name);
+        return guitarService.getByBrand(name, checkIfAdmin());
     }
 
 }
